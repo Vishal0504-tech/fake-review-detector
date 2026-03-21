@@ -35,6 +35,10 @@ class Review(BaseModel):
 # 📊 DASHBOARD
 # ==============================
 
+@app.get("/")
+def home():
+    return {"message": "Backend is running successfully 🚀"}
+
 @app.get("/dashboard")
 def dashboard():
     total = collection.count_documents({})
