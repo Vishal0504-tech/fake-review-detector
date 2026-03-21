@@ -52,6 +52,11 @@ export const getProducts = async () => {
     return [];
   }
 };
+
+export const getProductStats = async () => {
+  const res = await fetch("http://127.0.0.1:8000/product-stats");
+  return res.json();
+};
 // 🔹 User Data
 export const getUserData = async () => {
   try {
@@ -116,4 +121,9 @@ export const getTimeAnalysis = async () => {
     console.error("Time Analysis Error:", err);
     return [];
   }
+};
+
+export const getTrendData = async () => {
+  const res = await fetch("http://127.0.0.1:8000/trend");
+  return res.json();
 };

@@ -195,7 +195,31 @@ def get_product_detail(name: str):
 
 
 # ==============================
-# 👤 USERS (DUMMY)
+ 
+
+@app.get("/product-stats")
+def product_stats():
+    reviews = list(collection.find())
+
+    stats = defaultdict(lambda: {"fake": 0, "real": 0})
+
+    for r in reviews:
+        product = r.get("product", "Unknown")
+
+        if r["label"] == "Fake":
+            stats[product]["fake"] += 1
+        else:
+            stats[product]["real"] += 1
+
+    result = []
+    for product, values in stats.items():
+        result.append({
+            "product": product,
+            "fake": values["fake"],
+            "real": values["real"]
+        })
+
+    return result
 # ==============================
 
 @app.get("/users")
@@ -269,3 +293,27 @@ def alerts():
 @app.get("/reviews")
 def get_reviews():
     return list(collection.find({}, {"_id": 0}))
+
+@app.get("/trend")
+def get_trend():
+    reviews = list(collection.find())
+
+    trend = defaultdict(lambda: {"fake": 0, "real": 0})
+
+    for r in reviews:
+        date = r["timestamp"].strftime("%Y-%m-%d")
+
+        if r["label"] == "Fake":
+            trend[date]["fake"] += 1
+        else:
+            trend[date]["real"] += 1
+
+    result = []
+    for date, values in sorted(trend.items()):
+        result.append({
+            "date": date,
+            "fake": values["fake"],
+            "real": values["real"]
+        })
+
+    return result
