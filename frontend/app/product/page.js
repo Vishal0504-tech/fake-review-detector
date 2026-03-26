@@ -11,7 +11,7 @@ export default function ProductsPage() {
 
   // 🔥 Fetch products
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/products")
+    fetch("https://fake-review-detector-2-mk9o.onrender.com/products")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
