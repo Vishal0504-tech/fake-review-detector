@@ -1,6 +1,16 @@
 from pymongo import MongoClient
+import os
 
-client = MongoClient("mongodb://localhost:27017")
+MONGO_URL = os.getenv("MONGO_URL")
+
+client = MongoClient(MONGO_URL)
+
+try:
+    # 🔥 This forces connection check
+    client.admin.command("ping")
+    print("✅ MongoDB Connected Successfully!")
+except Exception as e:
+    print("❌ MongoDB Connection Failed:", e)
 
 db = client["fake_review_db"]
 collection = db["reviews"]
