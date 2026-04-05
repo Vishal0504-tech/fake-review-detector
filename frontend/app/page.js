@@ -72,7 +72,7 @@ export default function AnalyzePage() {
           <textarea
             id="review-input"
             className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3.5 text-sm text-slate-100 placeholder-slate-600 resize-none focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.06] focus:ring-1 focus:ring-cyan-500/30 transition-all duration-200 min-h-[160px] leading-relaxed"
-            placeholder="Paste or type a review to analyze… (Ctrl+Enter to submit)"
+            placeholder="Paste or type a review to analyze… "
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -132,7 +132,8 @@ export default function AnalyzePage() {
 
         {/* ── Result Card ── */}
         {result && (
-          <ResultCard result={result} isFake={isFake} scorePercent={scorePercent} />
+          <ResultCard result={result} isFake={isFake} scorePercent={scorePercent} onKeyDown={handleKeyDown} />
+          
         )}
       </main>
     </div>
