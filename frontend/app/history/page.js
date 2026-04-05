@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { getAllReviews } from "@/services/api";
-import { deleteReview } from "@/services/api";
+
 export default function HistoryPage() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,25 +17,25 @@ export default function HistoryPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  // 🔥 DELETE FUNCTION (frontend only)
+  // ✅ FIXED DELETE FUNCTION
   const handleDelete = async (id) => {
-  try {
-    await deleteReview(id);
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delete/${id}`, {
+        method: "DELETE",
+      });
 
-    // remove from UI
-    setReviews((prev) => prev.filter((r) => r._id !== id));
-  } catch (err) {
-    console.error("Delete failed:", err);
-  }
-};
+      // ✅ update UI correctly
+      setReviews((prev) => prev.filter((item) => item._id !== id));
+
+    } catch (err) {
+      console.error("Delete failed", err);
+    }
+  };
 
   const filtered =
     filter === "All"
       ? reviews
       : reviews.filter((r) => r.label === filter);
-
-  const fake = reviews.filter((r) => r.label === "Fake").length;
-  const real = reviews.filter((r) => r.label === "Real").length;
 
   return (
     <div className="min-h-screen bg-[#070c18]">
@@ -81,13 +81,13 @@ export default function HistoryPage() {
         {/* List */}
         {!loading && !error && filtered.length > 0 && (
           <div className="space-y-3">
-            {filtered.map((review, idx) => {
+            {filtered.map((review) => {
               const isFake = review.label === "Fake";
               const score = Math.round((review.score ?? 0) * 100);
 
               return (
                 <div
-                  key={idx}
+                  key={review._id} // ✅ FIXED KEY
                   className="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-start"
                 >
                   {/* Text */}
@@ -105,9 +105,9 @@ export default function HistoryPage() {
                     </p>
                   </div>
 
-                  {/* 🔥 DELETE BUTTON */}
+                  {/* ✅ FIXED DELETE BUTTON */}
                   <button
-                    onClick={() => handleDelete(idx)}
+                    onClick={() => handleDelete(review._id)}
                     className="text-red-400 text-xs hover:text-red-300 ml-4"
                   >
                     Delete

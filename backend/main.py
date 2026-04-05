@@ -178,3 +178,12 @@ def alerts():
             result.append({"type": "Spike", "msg": f"Review spike on {date} 📈"})
 
     return result
+
+@app.delete("/delete/{id}")
+def delete_review(id: str):
+    result = collection.delete_one({"_id": ObjectId(id)})
+
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Review not found")
+
+    return {"message": "Deleted successfully"}
