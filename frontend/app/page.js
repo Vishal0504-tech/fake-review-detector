@@ -56,13 +56,7 @@ export default function AnalyzePage() {
             </span>
           </h1>
 
-          <p className="text-slate-400 text-base max-w-xl mx-auto mb-2">
-            Paste any review below. Our ML model will classify it as&nbsp;
-            <span className="text-rose-400 font-semibold">Fake</span>
-            &nbsp;or&nbsp;
-            <span className="text-emerald-400 font-semibold">Real</span>
-            &nbsp;with a confidence score.
-          </p>
+        
         </div>
       </section>
 
