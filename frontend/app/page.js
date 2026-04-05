@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { analyzeReview } from "@/services/api";
 
@@ -105,16 +105,6 @@ export default function AnalyzePage() {
 
 /* ───────── RESULT CARD ───────── */
 function ResultCard({ result, isFake, scorePercent }) {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  // 🔥 Real-time clock
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   const border = isFake
     ? "border-rose-500/30"
     : "border-emerald-500/30";
@@ -123,11 +113,6 @@ function ResultCard({ result, isFake, scorePercent }) {
     ? "from-rose-500 to-rose-400"
     : "from-emerald-500 to-emerald-400";
 
-  const fmt = new Intl.DateTimeFormat("en-IN", {
-    dateStyle: "medium",
-    timeStyle: "medium",
-  });
-
   return (
     <div className={`mt-6 bg-white/[0.03] border ${border} rounded-2xl p-6`}>
       
@@ -135,7 +120,7 @@ function ResultCard({ result, isFake, scorePercent }) {
         Analysis Result
       </h2>
 
-      {/* Label */}
+      {/* Result */}
       <p className="text-white mb-2">
         Result: <strong>{result.label}</strong>
       </p>
@@ -152,17 +137,12 @@ function ResultCard({ result, isFake, scorePercent }) {
         />
       </div>
 
-      {/* 🔥 RESIZABLE TEXT AREA */}
+      {/* 🔥 RESIZABLE TEXTAREA */}
       <textarea
         value={result.text}
         readOnly
         className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white resize both min-h-[120px] max-h-[400px]"
       />
-
-      {/* 🔥 REAL-TIME CLOCK */}
-      <div className="mt-4 text-gray-400">
-        ⏱ {fmt.format(currentTime)}
-      </div>
     </div>
   );
 }

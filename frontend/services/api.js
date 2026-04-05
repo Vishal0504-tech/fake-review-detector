@@ -38,3 +38,11 @@ export const getAlerts = async () => {
   if (!res.ok) throw new Error("Failed to fetch alerts");
   return res.json();
 };
+
+export const deleteReview = async (id) => {
+  const res = await fetch(`${BASE_URL}/delete-review/${id}`, {
+    method: "DELETE",
+  });
+
+  return res.json();
+};
